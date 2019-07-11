@@ -6,4 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".activities.FoodTrucksListActivity">
 
+    <include layout="@layout/recycler_foodtruck"></include>
+
 </android.support.constraint.ConstraintLayout>

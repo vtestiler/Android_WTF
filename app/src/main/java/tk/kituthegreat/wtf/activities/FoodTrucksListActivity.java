@@ -2,6 +2,8 @@ package tk.kituthegreat.wtf.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -18,13 +20,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import tk.kituthegreat.wtf.R;
+import tk.kituthegreat.wtf.adapter.FoodTruckAdapter;
 import tk.kituthegreat.wtf.model.FoodTruck;
+import tk.kituthegreat.wtf.view.ItemDecorator;
 
 import static com.android.volley.Request.*;
 import static com.android.volley.Request.Method.*;
 
 
 public class FoodTrucksListActivity extends AppCompatActivity {
+
+    // Variables
+    private FoodTruckAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,16 @@ public class FoodTrucksListActivity extends AppCompatActivity {
 
                 System.out.println("This is a 1st food truck name: " + foodTruckList.get(0).getName());
                 System.out.println("This is a 2nd food truck name: " + foodTruckList.get(1).getName());
+
+                RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_foodtruck);
+                recyclerView.setHasFixedSize(true);
+                adapter = new FoodTruckAdapter(foodTruckList);
+                recyclerView.setAdapter(adapter);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
+                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.addItemDecoration(new ItemDecorator(0, 0, 0, 10));
+
             }
         }, new Response.ErrorListener() {
             @Override
