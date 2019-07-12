@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WTF</string>
+    <string name="title_activity_food_truck_detail">Map</string>
 </resources>

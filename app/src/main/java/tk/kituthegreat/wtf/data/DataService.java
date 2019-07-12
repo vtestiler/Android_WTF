@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import tk.kituthegreat.wtf.activities.FoodTrucksListActivity;
+import tk.kituthegreat.wtf.constants.Constants;
 import tk.kituthegreat.wtf.model.FoodTruck;
 
 import static com.android.volley.Request.Method.GET;
@@ -32,7 +33,7 @@ public class DataService {
     // Request all the FoodTrucks
 
     public ArrayList<FoodTruck> downloadAllFoodTrucks(Context context, final FoodTrucksListActivity.TrucksDownloaded listener) {
-        String url = "https://kituthegreat.tk/api/v1/foodtruck";
+        String url = Constants.GET_FOOD_TRUCKS;
         //String url = "http://10.0.2.2:3005/v1/foodtruck";
         final ArrayList<FoodTruck> foodTruckList = new ArrayList<>();
         System.out.println("Testing");

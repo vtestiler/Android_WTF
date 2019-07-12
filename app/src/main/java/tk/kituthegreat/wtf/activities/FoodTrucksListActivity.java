@@ -1,5 +1,6 @@
 package tk.kituthegreat.wtf.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,11 +35,22 @@ public class FoodTrucksListActivity extends AppCompatActivity {
     // Variables
     private FoodTruckAdapter adapter;
     private ArrayList<FoodTruck> trucks = new ArrayList<>();
+    private static FoodTrucksListActivity foodTrucksListActivity;
+
+    public static FoodTrucksListActivity getFoodTrucksListActivity() {
+        return foodTrucksListActivity;
+    }
+
+    public static void setFoodTrucksListActivity(FoodTrucksListActivity foodTrucksListActivity) {
+        FoodTrucksListActivity.foodTrucksListActivity = foodTrucksListActivity;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_trucks_list);
+
+        foodTrucksListActivity.setFoodTrucksListActivity(this);
 
         TrucksDownloaded listener = new TrucksDownloaded() {
             @Override
@@ -68,5 +80,12 @@ public class FoodTrucksListActivity extends AppCompatActivity {
         void success(Boolean success);
 
     }
+
+    public void loadFoodTruckDetailActivity() {
+        Intent intent = new Intent(FoodTrucksListActivity.this, FoodTruckDetailActivity.class);
+        startActivity(intent);
+    }
+
+
 
 }

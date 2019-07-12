@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import tk.kituthegreat.wtf.R;
+import tk.kituthegreat.wtf.activities.FoodTrucksListActivity;
 import tk.kituthegreat.wtf.holder.FoodTruckHolder;
 import tk.kituthegreat.wtf.model.FoodTruck;
 
@@ -24,6 +25,14 @@ public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckHolder> {
 
         final FoodTruck truck = trucks.get(position);
         holder.updateUI(truck);
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FoodTrucksListActivity.getFoodTrucksListActivity().loadFoodTruckDetailActivity();
+            }
+        });
 
     }
 
