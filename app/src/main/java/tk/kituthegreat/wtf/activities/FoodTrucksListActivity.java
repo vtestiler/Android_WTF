@@ -36,6 +36,7 @@ public class FoodTrucksListActivity extends AppCompatActivity {
     private FoodTruckAdapter adapter;
     private ArrayList<FoodTruck> trucks = new ArrayList<>();
     private static FoodTrucksListActivity foodTrucksListActivity;
+    public static final String EXTRA_ITEM_Truck = "TRUCK";
 
     public static FoodTrucksListActivity getFoodTrucksListActivity() {
         return foodTrucksListActivity;
@@ -81,8 +82,9 @@ public class FoodTrucksListActivity extends AppCompatActivity {
 
     }
 
-    public void loadFoodTruckDetailActivity() {
+    public void loadFoodTruckDetailActivity(FoodTruck truck) {
         Intent intent = new Intent(FoodTrucksListActivity.this, FoodTruckDetailActivity.class);
+        intent.putExtra(FoodTrucksListActivity.EXTRA_ITEM_Truck, truck);
         startActivity(intent);
     }
 
