@@ -30,7 +30,7 @@ public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FoodTrucksListActivity.getFoodTrucksListActivity().loadFoodTruckDetailActivity();
+                FoodTrucksListActivity.getFoodTrucksListActivity().loadFoodTruckDetailActivity(truck);
             }
         });
 
