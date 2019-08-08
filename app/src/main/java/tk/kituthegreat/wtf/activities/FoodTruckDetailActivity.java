@@ -2,6 +2,7 @@ package tk.kituthegreat.wtf.activities;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,14 +18,21 @@ public class FoodTruckDetailActivity extends FragmentActivity implements OnMapRe
 
     private GoogleMap mMap;
     private FoodTruck foodTruck;
+    private TextView truckName;
+    private TextView foodType;
+    private TextView avgCost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_truck_detail);
+        setContentView(R.layout.detail_view);
+
+        truckName = (TextView) findViewById(R.id.detail_truck_name);
+        foodType = (TextView) findViewById(R.id.detail_food_type);
+        avgCost = (TextView) findViewById(R.id.detail_food_cost);
 
         foodTruck = getIntent().getParcelableExtra(FoodTrucksListActivity.EXTRA_ITEM_Truck);
-        System.out.println(foodTruck.getName());
+        updateUI();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -32,22 +40,27 @@ public class FoodTruckDetailActivity extends FragmentActivity implements OnMapRe
     }
 
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng foodTruckLocation = new LatLng(foodTruck.getLatitude(), foodTruck.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(foodTruckLocation).title(foodTruck.getName()));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(foodTruckLocation, 10));
+        setUpMap();
+    }
+
+    private void updateUI() {
+        truckName.setText(foodTruck.getName());
+        foodType.setText(foodTruck.getFoodType());
+        avgCost.setText("$" + Double.toString(foodTruck.getAvgCost()));
+    }
+
+    private void setUpMap() {
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.setTrafficEnabled(true);
+        mMap.setIndoorEnabled(true);
+        mMap.setBuildingsEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
     }
 }
