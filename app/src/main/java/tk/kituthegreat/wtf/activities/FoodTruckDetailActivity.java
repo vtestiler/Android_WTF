@@ -1,7 +1,11 @@
 package tk.kituthegreat.wtf.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,6 +25,11 @@ public class FoodTruckDetailActivity extends FragmentActivity implements OnMapRe
     private TextView truckName;
     private TextView foodType;
     private TextView avgCost;
+    private Button addReviewBtn;
+    private Button viewReviewsBtn;
+    private Button modifyTruckBtn;
+
+    public static final String EXTRA_ITEM_Truck = "TRUCK";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +39,9 @@ public class FoodTruckDetailActivity extends FragmentActivity implements OnMapRe
         truckName = (TextView) findViewById(R.id.detail_truck_name);
         foodType = (TextView) findViewById(R.id.detail_food_type);
         avgCost = (TextView) findViewById(R.id.detail_food_cost);
+        addReviewBtn = (Button) findViewById(R.id.add_review_btn);
+        viewReviewsBtn = (Button) findViewById(R.id.view_reviews_btn);
+        modifyTruckBtn = (Button) findViewById(R.id.modify_truck_btn);
 
         foodTruck = getIntent().getParcelableExtra(FoodTrucksListActivity.EXTRA_ITEM_Truck);
         updateUI();
@@ -37,6 +49,13 @@ public class FoodTruckDetailActivity extends FragmentActivity implements OnMapRe
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        viewReviewsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadReviews(foodTruck);
+            }
+        });
     }
 
 
@@ -62,5 +81,11 @@ public class FoodTruckDetailActivity extends FragmentActivity implements OnMapRe
         mMap.setIndoorEnabled(true);
         mMap.setBuildingsEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
+    }
+
+    public void loadReviews(FoodTruck truck) {
+        Intent intent = new Intent(FoodTruckDetailActivity.this, ReviewsActivity.class);
+        intent.putExtra(FoodTruckDetailActivity.EXTRA_ITEM_Truck, truck);
+        startActivity(intent);
     }
 }

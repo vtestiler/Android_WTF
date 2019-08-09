@@ -15,8 +15,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import tk.kituthegreat.wtf.activities.FoodTrucksListActivity;
+import tk.kituthegreat.wtf.activities.ReviewsActivity;
 import tk.kituthegreat.wtf.constants.Constants;
 import tk.kituthegreat.wtf.model.FoodTruck;
+import tk.kituthegreat.wtf.model.FoodTruckReview;
 
 import static com.android.volley.Request.Method.GET;
 
@@ -75,6 +77,49 @@ public class DataService {
         });
         Volley.newRequestQueue(context).add(getTrucks);
         return foodTruckList;
+
+    }
+
+    // Request all the FoodTrucks reviews
+
+    public ArrayList<FoodTruckReview> downloadReviews(Context context, FoodTruck foodTruck, final ReviewsActivity.ReviewInterface listener) {
+        String url = Constants.GET_REVIEWS + foodTruck.getId();
+        //String url = "http://10.0.2.2:3005/v1/foodtruck/reviews/truckID";
+
+        final ArrayList<FoodTruckReview> reviewsList = new ArrayList<>();
+        System.out.println("Testing");
+
+        final JsonArrayRequest getReviews = new JsonArrayRequest(GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                System.out.println(response.toString());
+
+                try {
+                    JSONArray reviews = response;
+                    for (int x = 0; x < reviews.length(); x++) {
+                        JSONObject review = reviews.getJSONObject(x);
+                        String title = review.getString("title");
+                        String id = review.getString("_id");
+                        String text = review.getString("text");
+
+                        FoodTruckReview newFoodTruckReview = new FoodTruckReview(id, title, text);
+                        reviewsList.add(newFoodTruckReview);
+                    }
+                } catch (JSONException e) {
+                    Log.v("JSON", "EXC" + e.getLocalizedMessage());
+                }
+
+                listener.success(true);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.v("API", "Error" + error.getLocalizedMessage());
+            }
+        });
+        Volley.newRequestQueue(context).add(getReviews);
+        return reviewsList;
 
     }
 }
