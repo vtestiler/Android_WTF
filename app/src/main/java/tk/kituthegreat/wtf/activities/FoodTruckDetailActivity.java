@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import tk.kituthegreat.wtf.R;
+// import tk.kituthegreat.wtf.activities.ui.login.LoginActivity;
 import tk.kituthegreat.wtf.model.FoodTruck;
 
 public class FoodTruckDetailActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -56,6 +57,12 @@ public class FoodTruckDetailActivity extends FragmentActivity implements OnMapRe
                 loadReviews(foodTruck);
             }
         });
+        addReviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadLogin();
+            }
+        });
     }
 
 
@@ -87,5 +94,10 @@ public class FoodTruckDetailActivity extends FragmentActivity implements OnMapRe
         Intent intent = new Intent(FoodTruckDetailActivity.this, ReviewsActivity.class);
         intent.putExtra(FoodTruckDetailActivity.EXTRA_ITEM_Truck, truck);
         startActivity(intent);
+    }
+
+    public void loadLogin (){
+        Intent intent = new Intent(FoodTruckDetailActivity.this, LoginActivity.class);
+        startActivity(intent );
     }
 }
