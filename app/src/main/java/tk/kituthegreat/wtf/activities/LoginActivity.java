@@ -128,11 +128,11 @@ public class LoginActivity extends AppCompatActivity {
             RegisterInterface registerInterface = new RegisterInterface() {
                 @Override
                 public void success(Boolean success) {
-                    //AuthService.getInstance().loginUser(email, password, getBaseContext(), loginInterface);
+                    AuthService.getInstance().loginUser(email, password, getBaseContext(), loginInterface);
                 }
             };
 
-           AuthService.getInstance().registerUser(email, password, getBaseContext(), registerInterface);
+            AuthService.getInstance().registerUser(email, password, getBaseContext(), registerInterface);
 
         }
     }

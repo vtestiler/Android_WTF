@@ -2,11 +2,14 @@ package tk.kituthegreat.wtf.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,6 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import tk.kituthegreat.wtf.R;
 // import tk.kituthegreat.wtf.activities.ui.login.LoginActivity;
+import tk.kituthegreat.wtf.constants.Constants;
 import tk.kituthegreat.wtf.model.FoodTruck;
 
 public class FoodTruckDetailActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -29,6 +33,7 @@ public class FoodTruckDetailActivity extends FragmentActivity implements OnMapRe
     private Button addReviewBtn;
     private Button viewReviewsBtn;
     private Button modifyTruckBtn;
+    SharedPreferences prefs;
 
     public static final String EXTRA_ITEM_Truck = "TRUCK";
 
@@ -45,6 +50,7 @@ public class FoodTruckDetailActivity extends FragmentActivity implements OnMapRe
         modifyTruckBtn = (Button) findViewById(R.id.modify_truck_btn);
 
         foodTruck = getIntent().getParcelableExtra(FoodTrucksListActivity.EXTRA_ITEM_Truck);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
         updateUI();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -60,7 +66,7 @@ public class FoodTruckDetailActivity extends FragmentActivity implements OnMapRe
         addReviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadLogin();
+                loadAddReview();
             }
         });
     }
@@ -96,8 +102,15 @@ public class FoodTruckDetailActivity extends FragmentActivity implements OnMapRe
         startActivity(intent);
     }
 
-    public void loadLogin (){
-        Intent intent = new Intent(FoodTruckDetailActivity.this, LoginActivity.class);
-        startActivity(intent );
+    public void loadAddReview (){
+        if (prefs.getBoolean(Constants.IS_LOGGED_IN, false)) {
+        Intent intent = new Intent(FoodTruckDetailActivity.this, AddReviewActivity.class);
+        startActivity(intent);
+        } else {
+            Intent intent = new Intent(FoodTruckDetailActivity.this, LoginActivity.class);
+            Toast.makeText(getBaseContext(), "Please login to leave a review", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
+        }
+
     }
 }
