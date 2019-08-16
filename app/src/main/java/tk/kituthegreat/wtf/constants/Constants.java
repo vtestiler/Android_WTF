@@ -7,4 +7,6 @@ public class Constants {
     public final static String LOGIN = "https://kituthegreat.tk/api/v1/account/login";
     public final static String AUTH_TOKEN = "AuthToken";
     public final static String IS_LOGGED_IN = "IsLoggedIn";
+    public final static String ADD_REVIEW = "https://kituthegreat.tk/api/v1/foodtruck/reviews/add/";
+
 }

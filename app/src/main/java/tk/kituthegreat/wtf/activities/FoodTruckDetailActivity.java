@@ -105,6 +105,7 @@ public class FoodTruckDetailActivity extends FragmentActivity implements OnMapRe
     public void loadAddReview (){
         if (prefs.getBoolean(Constants.IS_LOGGED_IN, false)) {
         Intent intent = new Intent(FoodTruckDetailActivity.this, AddReviewActivity.class);
+            intent.putExtra(FoodTruckDetailActivity.EXTRA_ITEM_Truck, foodTruck);
         startActivity(intent);
         } else {
             Intent intent = new Intent(FoodTruckDetailActivity.this, LoginActivity.class);
