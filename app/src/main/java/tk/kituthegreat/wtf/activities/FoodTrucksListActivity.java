@@ -1,11 +1,16 @@
 package tk.kituthegreat.wtf.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -22,6 +27,7 @@ import java.util.ArrayList;
 
 import tk.kituthegreat.wtf.R;
 import tk.kituthegreat.wtf.adapter.FoodTruckAdapter;
+import tk.kituthegreat.wtf.constants.Constants;
 import tk.kituthegreat.wtf.data.DataService;
 import tk.kituthegreat.wtf.model.FoodTruck;
 import tk.kituthegreat.wtf.view.ItemDecorator;
@@ -36,7 +42,9 @@ public class FoodTrucksListActivity extends AppCompatActivity {
     private FoodTruckAdapter adapter;
     private ArrayList<FoodTruck> trucks = new ArrayList<>();
     private static FoodTrucksListActivity foodTrucksListActivity;
+    private FloatingActionButton addTruckBtn;
     public static final String EXTRA_ITEM_Truck = "TRUCK";
+    SharedPreferences prefs;
 
     public static FoodTrucksListActivity getFoodTrucksListActivity() {
         return foodTrucksListActivity;
@@ -52,6 +60,20 @@ public class FoodTrucksListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_food_trucks_list);
 
         foodTrucksListActivity.setFoodTrucksListActivity(this);
+        addTruckBtn = (FloatingActionButton) findViewById(R.id.addTruckBtn);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        addTruckBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    loadAddTruck();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         TrucksDownloaded listener = new TrucksDownloaded() {
             @Override
@@ -62,7 +84,6 @@ public class FoodTrucksListActivity extends AppCompatActivity {
             }
         };
 
-        setUpRecycler();
         trucks = DataService.getInstance().downloadAllFoodTrucks(this, listener);
     }
 
@@ -86,6 +107,17 @@ public class FoodTrucksListActivity extends AppCompatActivity {
         Intent intent = new Intent(FoodTrucksListActivity.this, FoodTruckDetailActivity.class);
         intent.putExtra(FoodTrucksListActivity.EXTRA_ITEM_Truck, truck);
         startActivity(intent);
+    }
+
+    public  void loadAddTruck(){
+        if (prefs.getBoolean(Constants.IS_LOGGED_IN, false)){
+            Intent intent = new Intent(FoodTrucksListActivity.this, AddTruck.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(FoodTrucksListActivity.this, LoginActivity.class);
+            Toast.makeText(getBaseContext(), "Please login to add food truck", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
+        }
     }
 
 
