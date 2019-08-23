@@ -25,6 +25,7 @@ import java.util.Map;
 import tk.kituthegreat.wtf.activities.AddReviewActivity;
 import tk.kituthegreat.wtf.activities.AddTruck;
 import tk.kituthegreat.wtf.activities.FoodTrucksListActivity;
+import tk.kituthegreat.wtf.activities.ModifyTruck;
 import tk.kituthegreat.wtf.activities.ReviewsActivity;
 import tk.kituthegreat.wtf.constants.Constants;
 import tk.kituthegreat.wtf.model.FoodTruck;
@@ -48,7 +49,7 @@ public class DataService {
         String url = Constants.GET_FOOD_TRUCKS;
         //String url = "http://10.0.2.2:3005/v1/foodtruck";
         final ArrayList<FoodTruck> foodTruckList = new ArrayList<>();
-        System.out.println("Testing");
+        //System.out.println("Testing");
 
         final JsonArrayRequest getTrucks = new JsonArrayRequest(GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -277,6 +278,86 @@ public class DataService {
             };
 
             Volley.newRequestQueue(context).add(addTruck);
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
+
+    // modify Truck Put
+    public void modifyTruck (String name, String foodType, Double avgCost, Double latitude, Double longitude, FoodTruck foodTruck, Context context, final ModifyTruck.ModifyTruckInterface listener, String authToken) {
+
+        try {
+            String url = Constants.MODIFY_TRUCK + foodTruck.getId();
+
+            JSONObject geometry = new JSONObject();
+            JSONObject coordinates = new JSONObject();
+            coordinates.put("lat", latitude);
+            coordinates.put("long", longitude);
+            geometry.put("coordinates", coordinates);
+
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("name", name);
+            jsonBody.put("foodtype", foodType);
+            jsonBody.put("avgcost", avgCost);
+            jsonBody.put("geometry", geometry);
+
+
+            final String mRequestBody = jsonBody.toString();
+            final String bearer = "Bearer " + authToken;
+
+            Log.i("JSON Object", mRequestBody);
+
+            JsonObjectRequest modifyTruck = new JsonObjectRequest(Request.Method.PUT, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        String message = response.getString("message");
+                        Log.i("JSON Message", message);
+                    } catch (JSONException e){
+                        Log.v("JSON", "EXC: " + e.getLocalizedMessage());
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            }) {
+
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() {
+                    try {
+                        return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee){
+                        VolleyLog.wtf("Unsupported Encoding", mRequestBody, "utf-8");
+                        return null;
+                    }
+                }
+
+                @Override
+                protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                    if (response.statusCode == 200) {
+                        listener.success(true);
+                    }
+                    return super.parseNetworkResponse(response);
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", bearer);
+
+                    return headers;
+                }
+            };
+
+            Volley.newRequestQueue(context).add(modifyTruck);
 
         }catch (JSONException e){
             e.printStackTrace();

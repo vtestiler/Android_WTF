@@ -69,8 +69,14 @@ public class FoodTruckDetailActivity extends FragmentActivity implements OnMapRe
                 loadAddReview();
             }
         });
-    }
 
+        modifyTruckBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadModifyTruck();
+            }
+        });
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -107,6 +113,19 @@ public class FoodTruckDetailActivity extends FragmentActivity implements OnMapRe
         Intent intent = new Intent(FoodTruckDetailActivity.this, AddReviewActivity.class);
             intent.putExtra(FoodTruckDetailActivity.EXTRA_ITEM_Truck, foodTruck);
         startActivity(intent);
+        } else {
+            Intent intent = new Intent(FoodTruckDetailActivity.this, LoginActivity.class);
+            Toast.makeText(getBaseContext(), "Please login to leave a review", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
+        }
+
+    }
+
+    public void loadModifyTruck (){
+        if (prefs.getBoolean(Constants.IS_LOGGED_IN, false)) {
+            Intent intent = new Intent(FoodTruckDetailActivity.this, ModifyTruck.class);
+            intent.putExtra(FoodTruckDetailActivity.EXTRA_ITEM_Truck, foodTruck);
+            startActivity(intent);
         } else {
             Intent intent = new Intent(FoodTruckDetailActivity.this, LoginActivity.class);
             Toast.makeText(getBaseContext(), "Please login to leave a review", Toast.LENGTH_SHORT).show();

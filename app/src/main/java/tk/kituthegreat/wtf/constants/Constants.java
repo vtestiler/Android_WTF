@@ -9,5 +9,6 @@ public class Constants {
     public final static String IS_LOGGED_IN = "IsLoggedIn";
     public final static String ADD_REVIEW = "https://kituthegreat.tk/api/v1/foodtruck/reviews/add/";
     public final static String ADD_TRUCK = "https://kituthegreat.tk/api/v1/foodtruck/add";
+    public final static String MODIFY_TRUCK = "https://kituthegreat.tk/api/v1/foodtruck/";
 
 }
