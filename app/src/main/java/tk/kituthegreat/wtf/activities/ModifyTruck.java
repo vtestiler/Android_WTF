@@ -3,6 +3,7 @@ package tk.kituthegreat.wtf.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,11 +19,12 @@ public class ModifyTruck extends AppCompatActivity {
 
     // variables for modify truck activity
     private FoodTruck foodTruck;
-    private EditText truckName;
-    private EditText foodType;
+    private TextInputEditText truckName;
+    private TextInputEditText foodType;
     private EditText avgCost;
     private EditText lattitude;
     private EditText longitude;
+
 
     private Button modifyTruckBtn;
     private Button cancelBtn;
@@ -37,11 +39,12 @@ public class ModifyTruck extends AppCompatActivity {
 
         foodTruck = getIntent().getParcelableExtra(FoodTruckDetailActivity.EXTRA_ITEM_Truck);
 
-        truckName = (EditText) findViewById(R.id.new_truck_name);
-        foodType = (EditText) findViewById(R.id.new_truck_food_type);
+        truckName = (TextInputEditText) findViewById(R.id.new_truck_name);
+        foodType = (TextInputEditText) findViewById(R.id.new_truck_food_type);
         avgCost = (EditText) findViewById(R.id.new_truck_avg_cost);
         lattitude = (EditText) findViewById(R.id.new_truck_latitude);
         longitude = (EditText) findViewById(R.id.new_truck_longitude);
+
 
         modifyTruckBtn = (Button) findViewById(R.id.modify_truck_btn);
         cancelBtn = (Button) findViewById(R.id.cancel_truck_btn);
@@ -66,8 +69,8 @@ public class ModifyTruck extends AppCompatActivity {
                 final Double lat = Double.parseDouble(lattitude.getText().toString());
                 final Double longi = Double.parseDouble(longitude.getText().toString());
 
-                DataService.getInstance().modifyTruck(name, type, cost, lat, longi, foodTruck, getBaseContext(), listener, authToken);
-                loadListActivity();
+               DataService.getInstance().modifyTruck(name, type, cost, lat, longi, foodTruck, getBaseContext(), listener, authToken);
+               loadListActivity();
             }
         });
 
@@ -90,6 +93,7 @@ public class ModifyTruck extends AppCompatActivity {
         avgCost.setText(Double.toString(foodTruck.getAvgCost()));
         lattitude.setText(Double.toString(foodTruck.getLatitude()));
         longitude.setText(Double.toString(foodTruck.getLongitude()));
+
 
     }
 

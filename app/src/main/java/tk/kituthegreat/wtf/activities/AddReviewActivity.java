@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,6 +49,11 @@ public class AddReviewActivity extends AppCompatActivity {
 
                 final String title = reviewTitle.getText().toString();
                 final String text = reviewText.getText().toString();
+
+                Log.i("Review Title = ", title);
+                Log.i("Review Text = ", text);
+                Log.i("Review for truck = ", foodTruck.getName());
+                Log.i("Truck with ID = ", foodTruck.getId());
 
                 DataService.getInstance().addReview(title, text, foodTruck, getBaseContext(), listener, authToken);
             }
