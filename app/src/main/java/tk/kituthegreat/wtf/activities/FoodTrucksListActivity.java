@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -40,11 +41,14 @@ public class FoodTrucksListActivity extends AppCompatActivity {
 
     // Variables
     private FoodTruckAdapter adapter;
+    private FoodTruck foodTruck;
     private ArrayList<FoodTruck> trucks = new ArrayList<>();
     private static FoodTrucksListActivity foodTrucksListActivity;
     private FloatingActionButton addTruckBtn;
     public static final String EXTRA_ITEM_Truck = "TRUCK";
     SharedPreferences prefs;
+    String authToken;
+
 
     public static FoodTrucksListActivity getFoodTrucksListActivity() {
         return foodTrucksListActivity;
@@ -62,6 +66,7 @@ public class FoodTrucksListActivity extends AppCompatActivity {
         foodTrucksListActivity.setFoodTrucksListActivity(this);
         addTruckBtn = (FloatingActionButton) findViewById(R.id.addTruckBtn);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        authToken = prefs.getString(Constants.AUTH_TOKEN, "Does not exist");
 
         addTruckBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +74,8 @@ public class FoodTrucksListActivity extends AppCompatActivity {
                     loadAddTruck();
             }
         });
+
+
     }
 
     @Override
@@ -96,9 +103,41 @@ public class FoodTrucksListActivity extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new ItemDecorator(0, 0, 0, 10));
+
+
+        final FoodTrucksListActivity.TruckDeleted listener = new FoodTrucksListActivity.TruckDeleted() {
+            @Override
+            public void success(Boolean success) {
+                return;
+            }
+        };
+
+
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                foodTruck = adapter.getFoodTruckAt(viewHolder.getAdapterPosition());
+
+                DataService.getInstance().deleteFoodTruck(foodTruck, getBaseContext(), authToken, listener);
+                Toast.makeText(FoodTrucksListActivity.this, "Food Truck " + foodTruck.getName() + " deleted", Toast.LENGTH_SHORT).show();
+            }
+        }).attachToRecyclerView(recyclerView);
     }
 
     public interface TrucksDownloaded {
+        void success(Boolean success);
+
+    }
+
+    public interface TruckDeleted {
         void success(Boolean success);
 
     }

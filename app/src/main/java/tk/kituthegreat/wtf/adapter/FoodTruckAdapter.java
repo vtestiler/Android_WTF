@@ -47,4 +47,8 @@ public class FoodTruckAdapter extends RecyclerView.Adapter<FoodTruckHolder> {
         View truckCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_foodtruck, parent, false);
         return new FoodTruckHolder(truckCard);
     }
+
+    public FoodTruck getFoodTruckAt(int position) {
+        return trucks.get(position);
+    }
 }

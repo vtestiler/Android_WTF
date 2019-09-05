@@ -91,6 +91,74 @@ public class DataService {
 
     }
 
+    // Delete Food Truck
+    public void deleteFoodTruck (FoodTruck foodTruck, Context context, String authToken, final FoodTrucksListActivity.TruckDeleted listener) {
+
+        try {
+            String url = Constants.MODIFY_TRUCK + foodTruck.getId();
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("foodtruck", foodTruck.getId());
+            final String mRequestBody = jsonBody.toString();
+            final String bearer = "Bearer " + authToken;
+
+            Log.i("JSON Object", mRequestBody);
+
+            JsonObjectRequest reviewRequest = new JsonObjectRequest(Request.Method.DELETE, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        String message = response.getString("message");
+                        Log.i("JSON Message", message);
+                    } catch (JSONException e){
+                        Log.v("JSON", "EXC: " + e.getLocalizedMessage());
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            }) {
+
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() {
+                    try {
+                        return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee){
+                        VolleyLog.wtf("Unsupported Encoding", mRequestBody, "utf-8");
+                        return null;
+                    }
+                }
+
+                @Override
+                protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                    if (response.statusCode == 200) {
+                        listener.success(true);
+                    }
+                    return super.parseNetworkResponse(response);
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", bearer);
+
+                    return headers;
+                }
+            };
+
+            Volley.newRequestQueue(context).add(reviewRequest);
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
+
     // Request all the FoodTrucks reviews
 
     public ArrayList<FoodTruckReview> downloadReviews(Context context, FoodTruck foodTruck, final ReviewsActivity.ReviewInterface listener) {
