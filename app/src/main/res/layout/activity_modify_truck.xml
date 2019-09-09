@@ -49,54 +49,69 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/new_truck_avg_cost"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:ems="10"
-        android:hint="Avg Cost  (ex. 7.99)"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/food_type_input_layout"
-        tools:text="AvgCost" />
 
-    <EditText
-        android:id="@+id/new_truck_latitude"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:ems="10"
-        android:hint="Latitude Decimal Degrees"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_truck_avg_cost" />
+    <android.support.design.widget.TextInputLayout
+            android:id="@+id/avg_cost_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/food_type_input_layout">
 
-    <EditText
-        android:id="@+id/new_truck_longitude"
-        android:layout_width="0dp"
+            <android.support.design.widget.TextInputEditText
+            android:id="@+id/new_truck_avg_cost"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Avg Cost  (7.99)" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/lat_input_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:ems="10"
-        android:hint="Longitude Decimal Degrees"
-        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_truck_latitude" />
+        app:layout_constraintTop_toBottomOf="@+id/avg_cost_input_layout">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/new_truck_latitude"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Latitude Decimal Degrees" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/long_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lat_input_layout">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/new_truck_longitude"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Longitude Decimal Degrees" />
+
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/modify_truck_btn"
@@ -107,7 +122,7 @@
         android:layout_marginTop="16dp"
         android:text="Modify"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_truck_longitude" />
+        app:layout_constraintTop_toBottomOf="@+id/long_input_layout" />
 
     <Button
         android:id="@+id/cancel_truck_btn"
@@ -118,8 +133,7 @@
         android:layout_marginRight="8dp"
         android:text="Cancel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_truck_longitude" />
+        app:layout_constraintTop_toBottomOf="@+id/long_input_layout" />
 
 
 </android.support.constraint.ConstraintLayout>
-
