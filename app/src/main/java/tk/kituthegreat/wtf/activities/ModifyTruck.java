@@ -41,9 +41,9 @@ public class ModifyTruck extends AppCompatActivity {
 
         truckName = (TextInputEditText) findViewById(R.id.new_truck_name);
         foodType = (TextInputEditText) findViewById(R.id.new_truck_food_type);
-        avgCost = (EditText) findViewById(R.id.new_truck_avg_cost);
-        lattitude = (EditText) findViewById(R.id.new_truck_latitude);
-        longitude = (EditText) findViewById(R.id.new_truck_longitude);
+        avgCost = (TextInputEditText) findViewById(R.id.new_truck_avg_cost);
+        lattitude = (TextInputEditText) findViewById(R.id.new_truck_latitude);
+        longitude = (TextInputEditText) findViewById(R.id.new_truck_longitude);
 
 
         modifyTruckBtn = (Button) findViewById(R.id.modify_truck_btn);
